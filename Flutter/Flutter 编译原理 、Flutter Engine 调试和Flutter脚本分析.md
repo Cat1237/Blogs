@@ -1,4 +1,4 @@
-# Flutter 原理 、Flutter Engine 调试和Flutter脚本分析: FLUTTER PART-I 和 PART-III
+# Flutter 编译原理 、Flutter Engine 调试和Flutter脚本分析
 
 ### Flutter version 
 ```
@@ -33,7 +33,7 @@ Flutter (Channel stable, v1.9.1+hotfix.6, on Mac OS X 10.15.1 19B88, localezh-Ha
     - 开发成本高，只支持单一平台，需要多组人员开发不同的系统的版本
     - 后续维护不方便
 
-    ![Single Platform](images/single_p.png)
+    ![Single Platform](images/flutter_engine/single_p.png)
    
 - 多平台
 
@@ -48,7 +48,7 @@ Flutter (Channel stable, v1.9.1+hotfix.6, on Mac OS X 10.15.1 19B88, localezh-Ha
     - 上架限制
     - 性能低，用户体验差 
 
-    ![Single Platform](images/hybrid_p.png)
+    ![Single Platform](images/flutter_engine/hybrid_p.png)
 
   跨平台应用：开发者使用这些框架时只需要编写一次代码，然后这些代码就能在多个平台运行
   - 优点：
@@ -56,7 +56,7 @@ Flutter (Channel stable, v1.9.1+hotfix.6, on Mac OS X 10.15.1 19B88, localezh-Ha
   - 缺点： 
     - 需要使用桥接或者其他的方式使用原生的组件和服务
 
-    ![Cross Platform](images/cross_p.png)
+    ![Cross Platform](images/flutter_engine/cross_p.png)
 
   Flutter：Flutter 是 Google推出并开源的移动应用开发框架，主打跨平台、高保真、高性能。Flutter旨在提供每秒60帧（fps）的性能，或在能够进行120Hz更新的设备上提供120 fps的性能。开发者可以通过 Dart语言开发 App，一套代码同时运行在 iOS 和 Android，桌面，Web平台。 Flutter提供了丰富的组件、接口，开发者可以很快地为 Flutter添加 native扩展。同时 Flutter还使用 Native引擎渲染视图，这无疑能为用户提供良好的体验。总结如下：
     - 跨平台支持
@@ -64,7 +64,7 @@ Flutter (Channel stable, v1.9.1+hotfix.6, on Mac OS X 10.15.1 19B88, localezh-Ha
     - 快速加载时间和高性能
     - 高安全性和数据保护
     - 简单易用
-    ![Flutter](images/flutter_p.png)
+    ![Flutter](images/flutter_engine/flutter_p.png)
 
 ## Flutter架构
 
@@ -78,9 +78,9 @@ Flutter (Channel stable, v1.9.1+hotfix.6, on Mac OS X 10.15.1 19B88, localezh-Ha
 
 如果从更深层次来理解Flutter：
 * [Flutter官方开发网站](https://flutter.dev/docs/resources/technical-overview)
-  ![Flutter](images/flutter_overview.png)
+  ![Flutter](images/flutter_engine/flutter_overview.png)
 * [Flutter System Architecture](https://docs.google.com/presentation/d/1cw7A4HbvM_Abv320rVgPVGiUP2msVs7tfGbkgdrTy0I/edit#slide=id.gbb3c3233b_0_187)
-  ![Flutter](images/flutter_overview_1.png)
+  ![Flutter](images/flutter_engine/flutter_overview_1.png)
 
 上面两张图详细的解释了Flutter整个架构：
 
@@ -112,7 +112,7 @@ Flutter (Channel stable, v1.9.1+hotfix.6, on Mac OS X 10.15.1 19B88, localezh-Ha
 
 并且一般地来说，计算机系统中，CPU、GPU和显示器以一种特定的方式协作：CPU将计算好的显示内容提交给 GPU，GPU渲染后放入帧缓冲区，随后视频控制器会按照 VSync 信号逐行读取帧缓冲区的数据，经过可能的数模转换传递给显示器显示。如下图所示：
 
-![Flutter](images/screen_display.png)
+![Flutter](images/flutter_engine/screen_display.png)
 
 无独有偶，Flutter也不例外。所以Flutter与React-Native、Weex之类只是扩展系统的OEM Widgets的最大区别就是在这。Flutter是自己绘制，并且不受系统的限制。
 
@@ -120,7 +120,7 @@ Flutter (Channel stable, v1.9.1+hotfix.6, on Mac OS X 10.15.1 19B88, localezh-Ha
 
 Flutter的图形管线：
 
-  ![Flutter](images/flutter_vsync.png)
+  ![Flutter](images/flutter_engine/flutter_vsync.png)
 
 首先明确一下isolate：原意是隔离的意思，类似于线程但不共享内存的独立工作程序，仅通过消息进行通信。solate直接的通信方式只能通过port，消息传递异步。实现的步骤有，初始化isolate数据结构，初始化堆内存，进入对应所在的线程运行isolate，配置port，配置消息处理机制，配置debugger，将isolate注册到全局监控器。
 * UI Thread（UI Task Runner）: 
@@ -138,7 +138,7 @@ Flutter的图形管线：
 
 Flutter的渲染管线：
 
-  ![Flutter](images/flutter_render.png)
+  ![Flutter](images/flutter_engine/flutter_render.png)
 
 ## 调试Flutter Engine
 
@@ -254,7 +254,7 @@ Flutter的渲染管线：
 
 6. `gclient`执行完成后，会多出一个src目录：
 
-    ![src directory](images/src_directory.png)
+    ![src directory](images/flutter_engine/src_directory.png)
     
     ```
     cd src/flutter
@@ -441,7 +441,7 @@ solutions = [
 
     **编译完成后，在/out目录下就可以看见对应平台的代码了**：
 
-    ![out_src](images/out_src.png)
+    ![out_src](images/flutter_engine/out_src.png)
 
 
 #### 编译Flutter Framework
@@ -470,7 +470,7 @@ solutions = [
 ./flutter/tools/gn --ios --simulator --unoptimized
 ```
 我们看到在out目录下生成了一个文件夹`ios_debug_sim_unopt`:
-  ![ios_debug_sim_unopt](images/ios_debug_sim_unopt.png)
+  ![ios_debug_sim_unopt](images/flutter_engine/ios_debug_sim_unopt.png)
 然后我们用记事本打开`build.ninja`，搜索`Flutter.framework`，并没有任何结果。
 我们看到在同目录下还有一个`toolchain.ninja`文件，作为`build.ninja`的`subninja`。打开后我们搜索发现：
 ```
@@ -600,7 +600,7 @@ Android使用Local Engine只要向gradle传递localEngineOut参数即可：
 
     - 用Xcode打开需要调试的Flutter App，在Xcode顶部Debug>Attach to Process>找到对应运行的进程名和进程id，就可以调试通过flutter run跑起来的项目了：
 
-        ![Methods in Xcode jump bar](images/Xcode_jump_bar.png)
+        ![Methods in Xcode jump bar](images/flutter_engine/Xcode_jump_bar.png)
 * 方式二：
 
     1. 使用Xcode打开Flutter App，找到Generated.xcconfig文件，打开：
@@ -647,14 +647,14 @@ Android使用Local Engine只要向gradle传递localEngineOut参数即可：
 <your flutter project>/ios/Flutter/Flutter.framework
 ```
 目录，然后开始lldb：
-  ![flutter_framework_project_lldb](images/flutter_framework_project_lldb.png)
+  ![flutter_framework_project_lldb](images/flutter_engine/flutter_framework_project_lldb.png)
 
 同样我们来到Engine目录下，我这里使用的是模拟器，所以进入到
 ```
 <your engine path>/src/out/ios_debug_sim_unopt/Flutter.framework
 ```
 目录下，开始lldb：
-  ![flutter_engine_lldb](images/flutter_engine_lldb.png)
+  ![flutter_engine_lldb](images/flutter_engine/flutter_engine_lldb.png)
 可以看到我们自己用Engine编译生成的Flutter.framework就可以找到源码。而我们安装的Flutter中的引擎却不能输出源码路径。那么当我们调试Engine的时候，LLDB是怎样找到Flutter Engine的源码的？
 
 在Mac OS X上，当我们链接一个程序的时候，链接器(ld)不会处理所有的调试信息。因为调试信息通常是程序可执行文件大小的10倍以上，因此让链接器处理所有调试信息并将其包含在可执行二进制文件中是对链接时间的严重损害。
@@ -686,7 +686,7 @@ nm -pa executable
 - 首先我们准备好测试代码
 
     进入到测试文件夹内，新建`testLib.c`
-      ![testLibC](images/testLibC.png)
+      ![testLibC](images/flutter_engine/testLibC.png)
     无论是动态库还是静态库都是由.o文件创建的。所以我们先将`testLib.c`转化为`testLib.o`
     ```
     xcrun clang -c testLib.c -o testLib.o
@@ -696,15 +696,15 @@ nm -pa executable
     `clang –c`是使用LLVM汇编器将源文件转化为目标代码。这时，只调用了C编译器（clang-cl）和汇编器（llvm-as），而链接器(llvm-ld)并没有被执行。所以输出的目标文件不会包含Unix程序在被装载和执行时所必须的包含信息，但它以后可以被链接到一个程序。
 
     如果我们需要在.o中生成调试信息，需要添加`-g`参数：
-    ![debug_info](images/debug_info.png)
+    ![debug_info](images/flutter_engine/debug_info.png)
     ```
     xcrun clang -g -c testLib.c -o testLib.o
     ```
     - 不添加`-g`参数：
-      ![lldb_testLib_no_g](images/lldb_testLib_no_g.png)
+      ![lldb_testLib_no_g](images/flutter_engine/lldb_testLib_no_g.png)
         可以看到不存在编译单元。
     - 添加`-g`参数：
-      ![lldb_testLib_g](images/lldb_testLib_g.png)
+      ![lldb_testLib_g](images/flutter_engine/lldb_testLib_g.png)
 - 创建静态链接库
 
   ```
@@ -712,22 +712,22 @@ nm -pa executable
   ```
   进入到staticLib文件内：
 
-    ![static_testLib_lldb](images/static_testLib_lldb.png)
+    ![static_testLib_lldb](images/flutter_engine/static_testLib_lldb.png)
 - 创建动态链接库
 
   ```
   xcrun clang -target x86_64 -dynamiclib testLib.o -o /Users/ws/Desktop/lib/TestLib/dynamic/testLib
   ```
   进入到dynamicLib文件内：
-    ![dynamicLib_testLib_lldb](images/dynamicLib_testLib_lldb.png)
+    ![dynamicLib_testLib_lldb](images/flutter_engine/dynamicLib_testLib_lldb.png)
 
 首先我们知道静态实际上是.o文件的集合。按照上面我们对调试信息的分析，我们删除.o文件后再来观察:
 
 - 静态库：
-    ![static_testLib_lldb_noo](images/static_testLib_lldb_noo.png)
+    ![static_testLib_lldb_noo](images/flutter_engine/static_testLib_lldb_noo.png)
     可以看到并没有变化
 - 动态库：
-    ![dynamic_testLib_lldb_noo](images/dynamic_testLib_lldb_noo.png)
+    ![dynamic_testLib_lldb_noo](images/flutter_engine/dynamic_testLib_lldb_noo.png)
     虽然存在编译单元，但是却已经打印不出源码地址。
 
 我们在观察删除了.o文件在静态库和动态库的输出后，更加证实了我们上面的说明。
@@ -1311,7 +1311,7 @@ fi
 
 ## Flutter 混合工程脚本化
 
-![Flutter_project](images/Flutter_project_c.png)
+![Flutter_project](images/flutter_engine/Flutter_project_c.png)
 
 首先我们来分析一下官方提供的Flutter加入到现有App的方案（[Add Flutter to existing app](https://flutter.dev/docs/development/add-to-app)）：
 - 新建Flutter Module

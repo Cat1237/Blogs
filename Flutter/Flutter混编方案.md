@@ -1,4 +1,4 @@
-# Flutter混编方案: FLUTTER PART-III
+# Flutter混编方案
 
 ### Flutter version 
 ```
@@ -71,8 +71,8 @@ Flutter (Channel stable, v1.9.1+hotfix.6, on Mac OS X 10.15.1 19B88, localezh-Ha
 ag '\NRunner\N' packages/flutter_tools/lib
 ```
 可以看到：
-![ag_1](images/ag_1.png)
-![ag_2](images/ag_2.png)
+![ag_1](images/flutter_upload/ag_1.png)
+![ag_2](images/flutter_upload/ag_2.png)
 在`Flutter`中写死了`scheme`的就是`Runner`。
 
 ### 目前主流的混合方案
@@ -87,11 +87,11 @@ ag '\NRunner\N' packages/flutter_tools/lib
 
 - [以闲鱼为代表的方案](https://www.yuque.com/xytech/flutter/pfoy9x)
 
-  ![闲鱼_flutter](images/闲鱼_Flutter.png)
+  ![闲鱼_flutter](images/flutter_upload/闲鱼_Flutter.png)
 
 因为闲鱼的文章也没有进行过多的具体说明，所以我们结合这篇《[从零搭建 iOS Native Flutter 混合工程](https://juejin.im/post/5c3ae5ef518825242165c5ca)》来理解一下。
 
-![flutter_upload](images/flutter_upload.png)
+![flutter_upload](images/flutter_upload/flutter_upload.png)
 大致的流程就是这样的，具体的分析原文已经介绍的很清楚了。
 
 我们回过头来来看看这种方式还有没有优化的地方。

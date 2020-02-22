@@ -8,7 +8,7 @@
 
 * 首先创建一个flutter项目作为例子:
 
-    ![testflutter](images/test_flutter.png)
+    ![testflutter](images/flutter_upload/test_flutter.png)
 
 * 使用AndroidStudio（File>Open）打开flutter_tools（<你安装的flutter路径>/packages/flutter_tools），在run_hot.dart（../flutter_tools/lib/src/run_hot.dart）的HotRunner的restart()方法设置断点：
 
@@ -62,4 +62,4 @@
         -d <指定设备的UDID>
         ```
 
-    ![flutter_tools_cfg](images/flutter_tools_cfg.png)
+    ![flutter_tools_cfg](images/flutter_upload/flutter_tools_cfg.png)
