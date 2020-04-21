@@ -376,7 +376,7 @@ solutions = [
     - 模拟器未优化:
         ```
         ./flutter/tools/gn --ios --simulator --unoptimized
-        ./flutter/tools/gn --simulator --unoptimized
+        ./flutter/tools/gn --unoptimized
         ```
 
 4. 执行编译命令：
@@ -436,7 +436,7 @@ solutions = [
     - 模拟器未优化:
         ```
         ninja -C out/ios_debug_sim_unopt
-        ninja -C out/host_debug_sim_unopt
+        ninja -C out/host_debug_unopt
         ```
 
     **编译完成后，在/out目录下就可以看见对应平台的代码了**：
