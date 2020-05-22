@@ -302,6 +302,17 @@ solutions = [
     ```
     git reset --hard commitID
     ```
+    如显示：
+    
+    ```text
+    fatal: Could not parse object
+    ```
+    可先执行：
+    
+    ```
+    git fetch upstream
+    ```
+    然后再执行`reset`命令。
 * 然后回到.gclient文件所在的目录，执行：
     ```
      gclient sync --with_branch_heads --with_tags --verbose
