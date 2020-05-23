@@ -241,6 +241,16 @@ Flutter的渲染管线：
     ```
     git reset --hard commitID
     ```
+    如显示：
+    
+    ```
+    fatal: Could not parse object
+    ```
+    可先执行：
+    
+    ```git
+    git fetch upstream
+    ```
     加上
     ```
     gclient sync --with_branch_heads --with_tags --verbose
