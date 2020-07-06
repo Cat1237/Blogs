@@ -5,7 +5,6 @@
     ```
     open -a Simulator
     ```
-
 * 首先创建一个flutter项目作为例子:
 
     ![testflutter](images/flutter_upload/test_flutter.png)

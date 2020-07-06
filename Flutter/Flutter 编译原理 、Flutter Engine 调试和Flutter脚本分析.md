@@ -253,7 +253,7 @@ Flutter的渲染管线：
     ```
     加上
     ```
-    gclient sync --with_branch_heads --with_tags --verbose
+    gclient sync --with_branch_heads --with_tags --verbose -D
     ```
     才会生效
 
@@ -291,7 +291,7 @@ cat <your flutter path>/bin/internal/engine.version
 ```zsh
 cd <your flutter engine path>/src/flutter
 git reset --hard 2994f7e1e682039464cb25e31a78b86a3c59b695
-gclient sync --with_branch_heads --with_tags --verbose
+gclient sync --with_branch_heads --with_tags --verbose -D
 ```
 也可以一开始通过修改.gclient文件：
 ```
@@ -325,7 +325,7 @@ solutions = [
     然后再执行`reset`命令。
 * 然后回到.gclient文件所在的目录，执行：
     ```
-     gclient sync --with_branch_heads --with_tags --verbose
+     gclient sync --with_branch_heads --with_tags --verbose -D
     ```
     才会生效。
 
@@ -341,7 +341,7 @@ solutions = [
     ```
     如果修改过commitID，需执行：
     ```
-     gclient sync --with_branch_heads --with_tags --verbose
+     gclient sync --with_branch_heads --with_tags --verbose -D
     ```
     **更新所有依赖项**
 3. 生成编译文件：
