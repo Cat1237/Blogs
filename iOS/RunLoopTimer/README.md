@@ -1,4 +1,9 @@
 # RunLoop Timer
+`RunLoop Timer`底层由两种`timer`实现：
+* `dispatch_source_timer`:
+        - 设置`leeway/tolerance`
+* `mk_timer`:
+    - 没有设置`leeway/tolerance`
 
 ## 配置数据
 * interval：1毫秒 = 1000000纳秒
