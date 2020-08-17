@@ -1,6 +1,6 @@
 //
 //  main.m
-//  Block底层原理
+//  RunLoopTimer
 //
 //  Created by ws on 2020/4/3.
 //  Copyright © 2020 Cat. All rights reserved.
@@ -36,9 +36,12 @@ double conversion;
 mach_port_t timerPort;
 dispatch_source_t timer;
 
+// 1毫秒
 uint64_t interval_abs = 1000000000;
 
 uint32_t use_leeway = 0;
+
+// 1千次
 uint32_t report = 1000;
 
 uint64_t on, lastfire = 0, totaljitter = 0, max_jitter = 0, min_jitter = ~0ULL, jiterations = 0, leeway_ns = 0, leeway_abs = 0;
