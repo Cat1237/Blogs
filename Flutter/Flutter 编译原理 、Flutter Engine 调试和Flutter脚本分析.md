@@ -1340,11 +1340,13 @@ fi
   ```
   flutter create -t module testflutter_exist
   ```
+  
   上面的命令会创建一个flutter的项目模块，在该模块文件夹中有一个.ios的隐藏文件夹，里面包含了构建Xcode项目的一些配置
 - 利用CocoaPods将Flutter需要的依赖添加到现有工程中
   - 老版本：
   在Podfile添加下面两行代码
-    ```ruby
+  
+```ruby
     platform :ios, '9.0'
 
     #新添加的代码
@@ -1353,10 +1355,12 @@ fi
 
     target 'Flutter_Hybird' do
     end
-    ```
+```
+
   - 新版本：
   在Podfile添加下面三行代码：
-    ```ruby
+  
+```ruby
     platform :ios, '9.0'
 
      #新添加的代码
@@ -1369,10 +1373,12 @@ fi
        #新添加的代码
       install_all_flutter_pods(flutter_application_path)
     end
-    ```
+```
+
   为什么Podfile添加的代码不一样了？关键就在`podhelper.rb`中，下面我就简单的注释了一下：
   - 旧版本：
-    ```
+  
+```ruby
     # @abstract 将输出的文件按照传入的分隔符分割
     # @param file文件
     # @param separator分隔符，默认是'='
@@ -1476,15 +1482,22 @@ fi
             end
         end
     end
-    ```
-    总结一下，该脚本在 pod install/update 时执行，做4点事情：
+ ```
+ 
+ 
+ 
+总结一下，该脚本在 pod install/update 时执行，做4点事情：
     - 解析 'Generated.xcconfig' 文件，获取 Flutter 工程配置信息，文件中包含了 Flutter SDK 路径、Flutter 工程路径、Flutter 工程入口、编译目录等
     - 将 Flutter SDK 中的 Flutter.framework 通过 pod 添加到 Native 工程
     - 将 Flutter 工程依赖的插件通过 pod 添加到 Native 工程，因为有些插件有 Native 部分代码
     - 使用 post_install 这个 pod hooks 来关闭 Native 工程的 bitcode，并将 'Generated.xcconfig' 文件加入 Native 工程
 
   - 新版本：
-    ```
+  
+  
+  
+  
+```ruby
   
     # @example
     #   target 'MyApp' do
@@ -1641,7 +1654,8 @@ fi
         end
       }
     end
-    ```
+```
+
   实际上对原先裸露的引入方式做了一层包装，同时移除对post_install的使用，移除了对Bitcode的设置。同时不再需要手动在Xcode中添加脚本。如果不存在App.framework，在项目编译之前添加一个空的App.framework占位。同时需要在Podfile中手动调用需要的函数，来引入相关功能。
 - 添加xcode_backend.sh脚本
 
