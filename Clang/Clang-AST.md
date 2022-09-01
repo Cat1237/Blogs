@@ -455,7 +455,7 @@ for (auto compiler : compilers)
 实际上，为了提升`clang`的编译性能，避免生成文件再解析，再生成汇编代码文件的过程。同时更方便将整个过程与`clang`内置的诊断器联系起来，默认情况下并没有使用外部的汇编器，如`llvm-as`。而是直接使用内部集成的汇编器（`llvm`专门做了一个`llvm-mc`工具方便我们体验）。我们可以使用`-no-integrated-as`参数禁用内置汇编器：
   ![-c500](media/AST/16617829739691.png)
 
-## Others(进行中...)
+## Others
 * SwiftLint
 * Clang plugins
 * Clang Static Analyzer (static analysis)
