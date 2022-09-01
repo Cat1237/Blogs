@@ -16,7 +16,7 @@
 ```
 该命令会在`build/oclint-driver/bin`目录下重新生成`oclint`包含调试信息的可执行文件。
 除了上述方式，当也可以直接使用`cmake`帮助我们重新生成包含调试信息的`oclint`可执行文件。通过调试`oclint-scripts/build`脚本，发现实际调用的`cmake`命令为：
-![](media/AST/16618542402772.png)
+![-c500](media/AST/16618542402772.png)}
 进入到`build/oclint-driver`目录，不存在的话，自己创建一个，执行：
 ```sh
 cmake -G Ninja -D LLVM_ROOT=<your path>/build/llvm-install -D OCLINT_SOURCE_DIR=<your path>/oclint-core -D OCLINT_BUILD_DIR=<your path>/build/oclint-core <your path>/oclint-driver
@@ -45,7 +45,7 @@ clangRewrite
 clangBasic
 ```
 你可以进行整体`llvm-install`目录替换。也可以对指定库进行替换，例如`libclangTooling.a`。替换前注意`llvm`版本是否匹配，否则容易出现符号问题。
-![](media/AST/16618555718679.png)
+![-c500](media/AST/16618555718679.png)
 
 ### 2. `oclint test`
 如果直接上手调试`oclint`核心功能，会沉浸在复杂的调试中。好在`oclint`的每个核心模块都有清晰的测试代码。通过调试测试代码，更好的帮助我们去理解像`rule`到底是如何注册以及执行。
@@ -60,7 +60,7 @@ clangBasic
 ./test rules
 ```
 通过调试发现`oclint-scripts/test`，实际运行的`cmake`命令为：
-![](media/AST/16618610402233.png)
+![-c500](media/AST/16618610402233.png)
 
 ```sh
 cmake -D TEST_BUILD=1 -G Ninja 
@@ -76,7 +76,7 @@ cmake -D TEST_BUILD=1 -G Ninja
 然后执行`ninja`命令。
 
 **注意**：如果使用`vscode`的话，在引入`cmake`环境后，设置`settings.json`或者`CMakePresets.json`，将参数传入：
-![](media/AST/16618613502436.png)
+![-c500](media/AST/16618613502436.png)
 ### 3. 使用`Xcode`调试`oclint`
 如果想使用`Xcode`调试`oclint`，可以直接通过`cmake`将构建系统改为`Xcode`，生成`Xcode`项目。
 如果想要手动体验一下，`cmake`执行完毕之后，到底配置了那些编译，链接参数。
@@ -87,10 +87,10 @@ LIBRARY_SEARCH_PATHS #库文件搜索
 OTHER_LDFLAGS #链接器参数
 OTHER_CPLUSPLUSFLAGS #CXX编译器参数
 ```
-![](media/AST/16618631940224.jpg)
+![-c500](media/AST/16618631940224.jpg)
 
 > **注意⚠️**：如果不想使用`ninja`。那么在使用`cmake`命令的时候，将`-G Ninja`改为你需要使用的构建系统，执行的编译命令也有随之更改。
-> ![](media/AST/16618734275415.jpg)
+> ![-c500](media/AST/16618734275415.jpg)
 
 
 
@@ -102,18 +102,18 @@ OTHER_CPLUSPLUSFLAGS #CXX编译器参数
 在`macho`中，如果`exec/dylib`使用到其他的`exec/dylib`的功能时。会把调用的符号以间接符号的形式存储在符号表中，也可以将符号标记为`dynamic_lookup`，将符号的处理时机，交给运行时，避免在`linker`工作期间，造成`undefined symbol`。
 同时会在`macho`生成单独的`load command`用来保存使用到的`exec/dylib`路径。
 通过查看`oclint`可执行文件的`header`信息：
-![](media/AST/16618663145453.png)
+![-c500](media/AST/16618663145453.png)
 并没有发现`rules`动态库的加载路径。那么可以确定，一定是运行的时候，动态加载的这些`rules`动态库。
 在`/oclint-driver/rules_dlfcn_port.cpp`中可以看到：
-![](media/AST/16618664952188.png)
+![-c500](media/AST/16618664952188.png)
 实际上是通过`dlopen`加上`RTLD_LAZY`，加载所有`rules`动态库。
 > `RTLD_LAZY/RTLD_NOW`：通过`dlopen`加载的动态库如果使用到了其他动态库/可执行文件的符号，此时该符号是未定义符号。`dlopen`在加载时，有两个选择。是立即加载解析该未定义符号，还是等到使用到该符号时在进行加载解析（懒加载/非懒加载符号）。
 
 并且此时到`ruleDirPath`固定为`oclint`可执行文件所在目录`../lib//oclint/rules`路径：
-![](media/AST/16618672450438.png)
+![-c500](media/AST/16618672450438.png)
 `rule`动态库是如何加载的我们知道了，那么符号呢？`oclint`是如何与`rules`动态库进行交互的呢？
 
-### 2、oclint`与`rule`动态库进行交互
+### 2、`oclint`与`rule`动态库进行交互
 当我们查看`oclint`内置的`rules`或者自定义`rule`时，通常需要按照功能继承：
 ```c++
 //clang::MatchFinder
@@ -123,8 +123,8 @@ AbstractASTVisitorRule
 AbstractSourceCodeReaderRule
 ```
 当编写完`rule`时，会立刻执行`rule`初始化，将`rule`保存在`RuleSet`的`_rules`数组中：
-![](media/AST/16618686660125.png)
-![](media/AST/16618687171333.png)
+![-c500](media/AST/16618686660125.png)
+![-c500](media/AST/16618687171333.png)
 至此，只要保证需要的`rules`动态库正常加载，那么，`oclint`就能将要分析的代码`AST`等传递到`rules`动态库中处理，同时将处理结果返回给`oclint`处理。
 
 ## 三、关于`AST`结构
@@ -420,11 +420,11 @@ for (auto compiler : compilers)
     }
 }
 ```
-![](media/AST/16620429138280.png)
+![-c500](media/AST/16620429138280.png)
 
 ## 五、理解编译流程
 在日常开发中，如果留意一下代码的编译流程，会发现，代码变成`.o`、`exec`、`.gch`或者`.pcm`文件都是通过一个工具，就是`clang`。
-![](media/AST/16617746773061.jpg)
+![-c500](media/AST/16617746773061.jpg)
 
 正常来讲，`clang`属于`llvm`前端工具，他并不负责全部的编译流程，为什么像`Assembler`、`Linker`等功能也是由他来处理的呢？这就不得不谈到`clang`的真身`clang-driver`，实际上我们调用的`clang`功能都是由`clang-driver`来实现的。他有两个核心作用：
 1. 负责处理代码经过词法分析，语法分析生成的`AST`的过程；
@@ -432,9 +432,9 @@ for (auto compiler : compilers)
 
 打印`Pipeline`需要执行的任务：
 * 生成目标文件`.o`的流程：
-![](media/AST/16617796251930.png)
+![-c500](media/AST/16617796251930.png)
 * 生成可执行文件的流程：
-![](media/AST/16617796516493.png)
+![-c500](media/AST/16617796516493.png)
 ### 完整的编译流程使用到的工具
 * `preprocessor`：执行预处理器，处理`#includes` 和`#defines`。使用`-E`参数指示`Clang`在此步骤后停止；
 * `Parsing`：生成`AST`，例如`gch`、`pcm`文件。使用`-precompile`参数指示`Clang`在此步骤后停止。当输入是头文件时，该标志是默认值；
@@ -446,14 +446,14 @@ for (auto compiler : compilers)
 * 
 ### 查看`clang bind`之后，实际使用的工具：
 * 生成目标文件：
-![](media/AST/16617824438376.png)
+![-c500](media/AST/16617824438376.png)
 * 生成`exec`：
-![](media/AST/16617824568783.png)
+![-c500](media/AST/16617824568783.png)
 #### 这个地方有一个很大的疑问
 在生成目标文件阶段使用的工具一直是`clang`，并没有出现我们认为的`Assembler`，难道这部分功能是由`clang`来负责的？
 
 实际上，为了提升`clang`的编译性能，避免生成文件再解析，再生成汇编代码文件的过程。同时更方便将整个过程与`clang`内置的诊断器联系起来，默认情况下并没有使用外部的汇编器，如`llvm-as`。而是直接使用内部集成的汇编器（`llvm`专门做了一个`llvm-mc`工具方便我们体验）。我们可以使用`-no-integrated-as`参数禁用内置汇编器：
-  ![](media/AST/16617829739691.png)
+  ![-c500](media/AST/16617829739691.png)
 
 ## Others(进行中...)
 * SwiftLint
