@@ -1,6 +1,33 @@
 # Clang-AST
 ## 一、如何调试`OCLint`？
-首先确定要调试什么？
+首先确定要调试什么？- [Clang-AST](#clang-ast)
+  - [一、如何调试`OCLint`？](#一、如何调试oclint？)
+    - [1. 直接调试生成的`OCLint`可执行文件](#1直接调试生成的-oclint可执行文件)
+    - [2. `oclint test`](#2-oclint-test)
+    - [3. 使用`Xcode`调试`oclint`](#3使用-xcode调试-oclint)
+  - [二、`OCLint`是如何使用内置的规则（`Rule`）的？](#二、oclint是如何使用内置的规则（-rule）的？)
+    - [1、加载`rules`动态库](#1、加载-rules动态库)
+    - [2、`oclint`与`rule`动态库进行交互](#2、-oclint与-rule动态库进行交互)
+  - [三、关于`AST`结构](#三、关于ast结构)
+    - [1、 查看`method`方法](#1、查看-method方法)
+    - [2、获取`AST`信息](#2、获取-ast信息)
+    - [3、`AST`与通过`Rewriter`](#3、-ast与通过-rewriter)
+  - [四、实现一个`OCLint`](#四、实现一个oclint)
+    - [1、命令行参数解析](#1、命令行参数解析)
+    - [2、 参数调整器`clang::tooling::ArgumentsAdjuster`](#2、参数调整器-clang-tooling-argumentsadjuster)
+    - [3、`clang::DiagnosticsEngine`](#3、-clang-diagnosticsengine)
+    - [4、`clang::driver::Driver`](#4、-clang-driver-driver)
+    - [5、创建`clang::driver::Driver`要执行的任务](#5、创建-clang-driver-driver要执行的任务)
+    - [6、创建`clang`实例，开始编译](#6、创建-clang实例，开始编译)
+    - [7、创建`clang::SyntaxOnlyAction`](#7、创建-clang-syntaxonlyaction)
+    - [8、获取`ASTContext`](#8、获取-astcontext)
+  - [五、理解编译流程](#五、理解编译流程)
+    - [完整的编译流程使用到的工具](#完整的编译流程使用到的工具)
+    - [查看`clang bind`之后，实际使用的工具：](#查看clang-bind之后，实际使用的工具：)
+      - [这个地方有一个很大的疑问](#这个地方有一个很大的疑问)
+  - [Others](#others)
+  - [参考文献](#参考文献)
+
 我们想要研究的是`OCLint`内部的实现逻辑。
 那现在就有两个选择：
 ### 1. 直接调试生成的`OCLint`可执行文件
