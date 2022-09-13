@@ -251,8 +251,16 @@ print("\(tree.firstToken!.nextToken!)")
 struct 
 A 
 ```
-`SyntaxRewriter`调用`visit*`开头的函数，专门用来遍历`Syntax node`。可以指定类型。
-遍历并修改代码：
+
+## `SyntaxVisitor`
+调用`visit*`开头的函数，专门用来遍历`Syntax node`。可以指定类型。
+### `SyntaxAnyVisitor`
+对`visitAny(_)`重新处理，提升速度。
+
+## `SyntaxRewriter`
+`SyntaxRewriter`同样调用`visit*`开头的函数，用来遍历`Syntax node`。区别于`SyntaxVisitor`，函数可以返回一个`rewritten node`，用于表示重新处理的`syntax`。
+
+* 将代码`n`修改为`Cat`：
 ```swift
 class VisitAnyRewriter: SyntaxRewriter {
   let transform: (TokenSyntax) -> TokenSyntax
