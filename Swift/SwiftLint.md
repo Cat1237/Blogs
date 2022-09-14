@@ -1,12 +1,13 @@
 # `SwiftLint`
 - [`SwiftLint`](#swiftlint)
-  - [一、`LintOrAnalyze`](#一、lintoranalyze)
-  - [二、在`SwiftLint`中，如何实现一个`Rule`？](#二、在swiftlint中，如何实现一个-rule？)
-      - [1. `ConfigurationProviderRule`](#1-configurationproviderrule)
-      - [2. `Rule`](#2-rule)
-      - [3. `CorrectableRule`](#3-correctablerule)
-    - [三、`UntypedErrorInCatchRule`](#三、untypederrorincatchrule)
-  - [四、正则表达式补充](#四、正则表达式补充)
+  - [`LintOrAnalyze`](#lintoranalyze)
+  - [在`SwiftLint`中，如何实现一个`Rule`？](#在swiftlint中，如何实现一个-rule？)
+      - [`ConfigurationProviderRule`](#configurationproviderrule)
+      - [`Rule`](#rule)
+      - [`CorrectableRule`](#correctablerule)
+    - [`UntypedErrorInCatchRule`](#untypederrorincatchrule)
+  - [正则表达式补充](#正则表达式补充)
+
 
 `SwiftLint`绝大多数功能是基于`SourceKitten`通过`SourceKit`实现的。还有一部分功能是基于`SwiftSyntax`。
 * [`SourceKitten`详细介绍](SourceKit.md)
@@ -19,19 +20,19 @@
 * `metrics`：对代码长度及复杂程度规则的验证；
 * `performance`：代码性能的验证。
 
-## 一、`LintOrAnalyze`
+## `LintOrAnalyze`
 `SwiftLint`有两个基本操作：`analyze`和`lint`：
 * `lint`：直接进行规则验证。将需要验证的文件，及相关配置包装成`Linter`，进行`rule`验证；
 * `analyze`：会在确定代码正确的前提下，通过分析`xcode`编译日志获取编译参数再去执行`Linter`。速度比直接`lint`慢，但更精确。
 
-## 二、在`SwiftLint`中，如何实现一个`Rule`？
-#### 1. `ConfigurationProviderRule`
+## 在`SwiftLint`中，如何实现一个`Rule`？
+#### `ConfigurationProviderRule`
 定义的`rule`要根据具体的配置，作出相应的调整。配置的传递者就是`ConfigurationProviderRule`，它遵守了所有`rule`的根协议`Rule`。内部拥有一个`configuration`的`RuleConfiguration`属性。通过设置这个`configuration`，可以让当前的`rule`支持自定义配置或者内置的配置，例如在`UntypedErrorInCatchRule`中：
 ```swift
 public var configuration = SeverityConfiguration(.warning)
 ```
 表明对违反该`rule`的严重性声明，当前是`warning`。
-#### 2. `Rule`
+#### `Rule`
 每一个`Rule`都遵守了`Rule`。在`Rule`协议中，除了`init`函数外，还有几个要求必须实现的方法和属性：
 * `description`：`RuleDescription`类型，可以在终端显示该`description`。保存了对该`rule`的详细描述，例如：
     * 该`rule`类型（`kind`）
@@ -44,7 +45,7 @@ public var configuration = SeverityConfiguration(.warning)
     * `func validate(file: SwiftLintFile) -> [StyleViolation]`
 * `collectInfo`：用于提供要对指定的源码文件收集的信息，由`RuleStorage`存储，由`CollectedLinter`进行处理
 
-#### 3. `CorrectableRule`
+#### `CorrectableRule`
 `CorrectableRule`协议用于纠正`SwiftLint`能够修复的违反规则的部分。同时对`Rule`协议扩展了三个函数，区别在于是否要预先设定收集文件的部分信息，是否使用编译参数，三个函数由上到下依次调用：
 * `func correct(file: SwiftLintFile, using storage: RuleStorage, compilerArguments: [String]) -> [Correction]`
 * `func correct(file: SwiftLintFile, compilerArguments: [String]) -> [Correction]`
@@ -52,7 +53,7 @@ public var configuration = SeverityConfiguration(.warning)
 
 我们可以参考`UntypedErrorInCatchRule`的实现，该`rule`属于`style rule`。
 
-### 三、`UntypedErrorInCatchRule`
+### `UntypedErrorInCatchRule`
 该规则用来表示`Catch`语句不应该在没有类型转换的情况下声明错误变量，同时可以进行简单修正。
 
 例如：
@@ -215,7 +216,7 @@ extension UntypedErrorInCatchRule: CorrectableRule {
 ```
 
 
-## 四、正则表达式补充
+## 正则表达式补充
 
 * `?`：匹配前面一个表达式 0 次或者 1 次。等价于 `{0,1}`。例如，`/e?le?/` 匹配 `angel`中的`el`、`angle`中的 `le`以及 `oslo`中的 `l`；
 * `(?:pattern)`：`(?:)`表示非捕获分组，和捕获分组区别在于，非捕获分组不记住匹配项；
