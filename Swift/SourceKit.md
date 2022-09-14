@@ -96,7 +96,7 @@ print("\(string.stringView().substringWithByteRange(ByteRange(location: 0, lengt
 ### `ClangTranslationUnit`
 使用`libClang`处理`OC`头文件和编译参数，获取`头文件`内部等`Swift`相关声明：
 1. 使用`source.request.editor.open.interface.header`生成`Swift interface`
-2. 通过`Cursor`获取[usr](#usr)声明位置。同时，在上一步骤打开`module interface`后，发送`source.request.editor.find_usr`，获取`offset`
+2. 通过`Cursor`获取[usr](./USR.md)声明位置。同时，在上一步骤打开`module interface`后，发送`source.request.editor.find_usr`，获取`offset`
 3. 通过获取的`usr offset`发送`source.request.cursorinfo`，获取该位置的`Swift`代码信息
 
 > `libClang`用于将源代码解析为抽象语法树 (`AST`)、加载已解析的`AST`、遍历`AST`、将源码位置与`AST`关联等等

@@ -122,7 +122,7 @@ let response = try sourceKit.sendSync(request)
   ]
 }
 ```
-可以看到整个代码的结构，包括位置信息以及`USR`全部被解析出来。
+可以看到整个代码的结构，包括位置信息以及[USR](./USR.md)全部被解析出来。
 ## 混淆
 尝试对当前`Foo`和`barbar`的名称进行混淆。
 `entry`的类型一般有两种：
