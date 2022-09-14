@@ -160,7 +160,7 @@ var a: Int
 ```
 
 ## `SwiftSyntaxBuilder`
-专门用来构造`SwiftSyntax`
+专门用来构造`SwiftSyntax`。
 使用`ArrowExpr`：
 ```swift
 // 创建一个无用字符，放在->的最左边
