@@ -1,3 +1,9 @@
+- [`swift-format`](#swift-format)
+  - [`.swift-format`文件](#swift-format文件)
+  - [`swift-format rule`](#swift-format-rule)
+    - [[`DoNotUseSemicolons`](https://github.com/apple/swift-format/blob/main/Sources/SwiftFormatRules/DoNotUseSemicolons.swift)](#donotusesemicolons-https-github-comappleswift-formatblobmainsourcesswiftformatrulesdonotusesemicolons-swift)
+  - [参考](#参考)
+
 # `swift-format`
 `swift-format`与`clang-format`功能类似，但是是基于[`SwiftSyntax`](./SwiftSyntax.md)，对`Swift`代码进格式化，同时可以`lint` `Swift`代码是否存在违规的工具。
 

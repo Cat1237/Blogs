@@ -1,6 +1,5 @@
 # Clang-AST
-## 一、如何调试`OCLint`？
-首先确定要调试什么？- [Clang-AST](#clang-ast)
+- [Clang-AST](#clang-ast)
   - [一、如何调试`OCLint`？](#一、如何调试oclint？)
     - [1. 直接调试生成的`OCLint`可执行文件](#1直接调试生成的-oclint可执行文件)
     - [2. `oclint test`](#2-oclint-test)
@@ -27,6 +26,9 @@
       - [这个地方有一个很大的疑问](#这个地方有一个很大的疑问)
   - [Others](#others)
   - [参考文献](#参考文献)
+
+## 一、如何调试`OCLint`？
+首先确定要调试什么？
 
 我们想要研究的是`OCLint`内部的实现逻辑。
 那现在就有两个选择：
