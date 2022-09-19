@@ -263,7 +263,7 @@ const RewriteBuffer *RewriteBuf =
 
 自定义`compiler`实际上就是初始化`clang`的过程，整个过程非常复杂。
 
-完整代码，见[`clang_ast_re.cpp`](Clang/core/clang_ast_re.cpp)文件。
+完整代码，见[`clang_ast_re.cpp`](Clang-AST/core/clang_ast_re.cpp)文件。
 
 ### 1、命令行参数解析
 `clang::tooling::CommonOptionsParser`是
